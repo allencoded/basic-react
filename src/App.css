@@ -40,8 +40,10 @@
 
 .input-item-container {
   display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.image-container {
-  max-width: 300px;
+.item-image {
+  width: 300px;
 }

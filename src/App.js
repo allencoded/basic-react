@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const vespa = {
@@ -21,6 +21,12 @@ function App() {
   const [bid, setBid] = useState("");
   const [winner, setWinner] = useState();
 
+  useEffect(() => {
+    if (playerTallies.playerOne && playerTallies.playerTwo) {
+      checkWhoIsWinner();
+    }
+  },[playerTallies]);
+
   function togglePlayer() {
     if (currentPlayer === "playerOne") {
       setCurrentPlayer("playerTwo");
@@ -36,7 +42,7 @@ function App() {
   function checkWhoIsWinner() {
     if (
       playerTallies.playerOne <= vespa.price &&
-      playerTallies.playerTwo > playerTallies.playerOne
+      playerTallies.playerOne > playerTallies.playerTwo
     ) {
       setWinner("Winner Is Player One");
     } else if (playerTallies.playerTwo <= vespa.price) {
@@ -60,7 +66,6 @@ function App() {
       setPlayerTallies({ ...playerTallies, ...{ playerOne: price } });
     } else {
       setPlayerTallies({ ...playerTallies, ...{ playerTwo: price } });
-      checkWhoIsWinner();
     }
 
     togglePlayer();
@@ -69,12 +74,10 @@ function App() {
 
   return (
     <div>
-      <div>Whos playing: {currentPlayer}</div>
+      <label>Whos playing: {currentPlayer}</label>
       <div className="input-item-container">
         <div>
-          <div className="image-container">
-            <img src={vespa.image} width="300" alt="" />
-          </div>
+          <img className="item-image" src={vespa.image} alt={vespa.itemName} />
           <div>
             <div>Item name: {vespa.itemName}</div>
           </div>
@@ -88,7 +91,7 @@ function App() {
             value={bid}
           />
           <button
-            type="button"
+            type="submit"
             onClick={() => {
               handleSubmit();
             }}
@@ -97,7 +100,7 @@ function App() {
           </button>
         </div>
       </div>
-      <div>{winner}</div>
+      <label>{winner}</label>
     </div>
   );
 }
